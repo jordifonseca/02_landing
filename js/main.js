@@ -68,10 +68,10 @@ function clearErrors() {
     document.getElementById('email').classList.remove('error');
 }
 
-// Enviar suscriptor a Mailerlite (via proxy server)
+// Enviar suscriptor a Mailerlite (via proxy PHP)
 async function sendToMailerlite(name, email) {
     try {
-        const response = await fetch('/api/subscribe', {
+        const response = await fetch('api.php?action=subscribe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email })
@@ -87,29 +87,6 @@ async function sendToMailerlite(name, email) {
         return data;
     } catch (error) {
         console.error('Error enviando a Mailerlite:', error);
-        throw error;
-    }
-}
-
-// Enviar notificación a Web3Forms (via proxy server)
-async function sendToWeb3Forms(name, email) {
-    try {
-        const response = await fetch('/api/notify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email })
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'Error en Web3Forms');
-        }
-
-        const data = await response.json();
-        console.log('Notificación enviada via Web3Forms:', data);
-        return data;
-    } catch (error) {
-        console.error('Error enviando a Web3Forms:', error);
         throw error;
     }
 }
@@ -142,11 +119,8 @@ async function handleFormSubmit(event) {
     successMsg.style.display = 'none';
 
     try {
-        // Enviar a ambas APIs simultáneamente
-        await Promise.all([
-            sendToMailerlite(name, email),
-            sendToWeb3Forms(name, email)
-        ]);
+        // Enviar a Mailerlite
+        await sendToMailerlite(name, email);
 
         // Éxito
         successMsg.style.display = 'block';
