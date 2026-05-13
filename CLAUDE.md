@@ -1,40 +1,43 @@
 # CLAUDE.md
 
-Landing page de newsletter. HTML/CSS/JS vanilla, sin dependencias.
+Landing page de newsletter. HTML/CSS/JS vanilla + PHP proxy.
 
 ## Stack
 
-HTML5 + CSS3 (variables, Grid) + JavaScript vanilla + Google Fonts (Archivo, Inter, Instrument Serif) + Mailerlite API + Web3Forms
+HTML5 + CSS3 (variables, Grid) + JavaScript vanilla + PHP + Google Fonts (Archivo, Inter, Instrument Serif) + Mailerlite API
 
 ## Estructura
 
 - `index.html` — Página única (header, hero, benefits, form, footer)
 - `styles/main.css` — Estilos responsivos (mobile-first)
-- `js/main.js` — Validación + APIs (Mailerlite, Web3Forms)
+- `js/main.js` — Validación + llamadas a API
+- `api.php` — Proxy PHP para Mailerlite (credenciales seguras)
 - `assets/images/` — Imágenes/logos
 
-## Desarrollo
+## Desarrollo Local
 
-Abre `index.html` en navegador. Sin servidor ni build step. Refresh para ver cambios.
+Abre `index.html` en navegador. No requiere build step ni dependencias.
 
 ### Git
 ```bash
 git add .
 git commit -m "message"
-git push origin main
+git push origin master
 ```
 
 ## Testing
 
-Formulario: datos válidos/inválidos, ambas APIs reciben datos, mobile responsivo.
+Formulario: datos válidos/inválidos, suscriptor se crea en Mailerlite, mobile responsivo.
 
 ## Despliegue
 
-Vercel (auto-deploy) | GitHub Pages | Dinahosting (FTP)
+Dinahosting (FTP): Copia todos los archivos (incluyendo `api.php`) a la carpeta de la landing.
+
+La credencial de Mailerlite está en `api.php` (línea 13).
 
 ## Notas
 
 - Mobile-first, Lighthouse 90+
 - Formulario: nombre + email (validación cliente)
-- APIs: Mailerlite (suscriptores) + Web3Forms (email al propietario)
-- Variables de entorno: MAILERLITE_API_KEY, WEB3FORMS_ACCESS_KEY
+- API: Mailerlite (suscriptores via proxy PHP)
+- Sin variables de entorno necesarias (credencial en api.php)
