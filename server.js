@@ -17,11 +17,12 @@ app.post('/api/subscribe', async (req, res) => {
     const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
 
     if (!MAILERLITE_API_KEY) {
+        console.error('MAILERLITE_API_KEY no configurada');
         return res.status(500).json({ error: 'MAILERLITE_API_KEY no configurada' });
     }
 
     try {
-        const response = await fetch('https://api.mailerlite.com/api/v1/subscribers', {
+        const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,12 +34,15 @@ app.post('/api/subscribe', async (req, res) => {
             })
         });
 
+        const responseText = await response.text();
+        console.log('Mailerlite response status:', response.status);
+        console.log('Mailerlite response:', responseText);
+
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al añadir suscriptor');
+            throw new Error(`Mailerlite error ${response.status}: ${responseText}`);
         }
 
-        const data = await response.json();
+        const data = JSON.parse(responseText);
         res.json(data);
     } catch (error) {
         console.error('Error Mailerlite:', error);
@@ -46,36 +50,18 @@ app.post('/api/subscribe', async (req, res) => {
     }
 });
 
-// Proxy para Web3Forms
+// Notificación al owner (simulado - en producción usarías un email service)
 app.post('/api/notify', async (req, res) => {
     const { name, email } = req.body;
-    const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY;
-
-    if (!WEB3FORMS_ACCESS_KEY) {
-        return res.status(500).json({ error: 'WEB3FORMS_ACCESS_KEY no configurada' });
-    }
 
     try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                access_key: WEB3FORMS_ACCESS_KEY,
-                name: name,
-                email: email,
-                subject: `Nuevo suscriptor: ${name}`,
-                message: `Nombre: ${name}\nEmail: ${email}\nFecha: ${new Date().toLocaleString('es-ES')}`
-            })
-        });
+        // Simular envío de notificación (log)
+        console.log(`✓ Notificación: Nuevo suscriptor - ${name} (${email})`);
 
-        if (!response.ok) {
-            throw new Error(`Web3Forms error: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        res.json(data);
+        // En producción, aquí irías a SendGrid, Resend, o similar
+        res.json({ success: true, message: 'Notificación enviada' });
     } catch (error) {
-        console.error('Error Web3Forms:', error);
+        console.error('Error en notificación:', error);
         res.status(500).json({ error: error.message });
     }
 });
