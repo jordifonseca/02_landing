@@ -67,3 +67,43 @@ function clearErrors() {
     document.getElementById('name').classList.remove('error');
     document.getElementById('email').classList.remove('error');
 }
+
+// Enviar suscriptor a Mailerlite
+async function sendToMailerlite(name, email) {
+    const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
+
+    if (!MAILERLITE_API_KEY) {
+        console.error('MAILERLITE_API_KEY no configurada');
+        throw new Error('Error de configuración del servidor');
+    }
+
+    const payload = {
+        email: email,
+        fields: {
+            name: name
+        }
+    };
+
+    try {
+        const response = await fetch('https://api.mailerlite.com/api/v1/subscribers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MAILERLITE_API_KEY}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Mailerlite error: ${error.message || 'Unknown error'}`);
+        }
+
+        const data = await response.json();
+        console.log('Suscriptor añadido a Mailerlite:', data);
+        return data;
+    } catch (error) {
+        console.error('Error enviando a Mailerlite:', error);
+        throw error;
+    }
+}
