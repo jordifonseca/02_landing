@@ -31,7 +31,9 @@ Formulario: datos válidos/inválidos, suscriptor se crea en Mailerlite, mobile 
 
 ## Despliegue
 
-Dinahosting (FTP): Copia todos los archivos (incluyendo `api.php`) a la carpeta de la landing.
+✅ **En vivo:** https://jorgefonseca.es/news/
+
+Dinahosting (FTP): Todos los archivos (incluyendo `api.php`) están en la carpeta `/news/`.
 
 La credencial de Mailerlite está en `api.php` (línea 13).
 
