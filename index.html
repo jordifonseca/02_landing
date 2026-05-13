@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Meta tags para SEO -->
+    <title>Suscríbete a mi Newsletter — Jorge Fonseca</title>
+    <meta name="description" content="Suscríbete a la newsletter de Jorge Fonseca sobre diseño, branding y marketing digital.">
+    <meta property="og:title" content="Suscríbete a mi Newsletter — Jorge Fonseca">
+    <meta property="og:description" content="Suscríbete a la newsletter sobre diseño, branding y marketing digital.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Google Fonts (mismas que jorgefonseca.es) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>Jorge Fonseca</h1>
+            </div>
+            <nav class="nav">
+                <a href="#newsletter" class="nav-link">Newsletter</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h2 class="hero-title">Historias sobre diseño, marca y negocio</h2>
+            <p class="hero-subtitle">Cada semana, insights prácticos sobre cómo crear marcas que comuniquen y conviertan.</p>
+            <a href="#form" class="btn btn-primary">Suscribirse</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="benefits-container">
+            <h3 class="section-title">¿Por qué suscribirse?</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>Contenido Original</h4>
+                    <p>Insights y estrategias que no encontrarás en ningún otro lugar.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Práctico y Aplicable</h4>
+                    <p>Ejemplos reales y pasos concretos que puedes implementar inmediatamente.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Sin Spam</h4>
+                    <p>Solo contenido valioso. Puedes desuscribirse en cualquier momento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup Section -->
+    <section id="form" class="newsletter">
+        <div class="newsletter-container">
+            <h3 class="section-title">Únete a la Comunidad</h3>
+            <p class="newsletter-subtitle">Recibe contenido directo en tu inbox</p>
+
+            <form id="signup-form" class="form" novalidate>
+                <div class="form-group">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Tu nombre"
+                        required
+                    >
+                    <span class="error-message" id="name-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="tu@email.com"
+                        required
+                    >
+                    <span class="error-message" id="email-error"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+                    Suscribirse
+                </button>
+
+                <p class="form-privacy">
+                    Protegemos tu privacidad. <a href="#privacy">Política de privacidad</a>
+                </p>
+            </form>
+
+            <div id="success-message" class="success-message" style="display: none;">
+                <p>¡Gracias por suscribirte! Revisa tu email para confirmar.</p>
+            </div>
+
+            <div id="error-message" class="error-message" style="display: none;">
+                <p id="error-text"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Jorge Fonseca. Todos los derechos reservados.</p>
+            <nav class="footer-links">
+                <a href="#privacy">Política de Privacidad</a>
+                <a href="#terms">Términos de Servicio</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
