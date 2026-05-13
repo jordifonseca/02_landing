@@ -18,12 +18,17 @@ HTML5 + CSS3 (variables, Grid) + JavaScript vanilla + PHP + Google Fonts (Archiv
 
 Abre `index.html` en navegador. No requiere build step ni dependencias.
 
-### Git
-```bash
-git add .
-git commit -m "message"
-git push origin master
-```
+### Git + Deploy Automático
+
+1. **Configura credenciales FTP** en `.env.local` (copia `.env.local.example`)
+2. **Edita los archivos** normalmente
+3. **Commit y push:**
+   ```bash
+   git add .
+   git commit -m "message"
+   git push origin master
+   ```
+4. **El deploy automático se ejecuta** después de cada commit (git hook)
 
 ## Testing
 
