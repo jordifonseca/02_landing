@@ -68,35 +68,18 @@ function clearErrors() {
     document.getElementById('email').classList.remove('error');
 }
 
-// Enviar suscriptor a Mailerlite
+// Enviar suscriptor a Mailerlite (via proxy server)
 async function sendToMailerlite(name, email) {
-    const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
-
-    if (!MAILERLITE_API_KEY) {
-        console.error('MAILERLITE_API_KEY no configurada');
-        throw new Error('Error de configuración del servidor');
-    }
-
-    const payload = {
-        email: email,
-        fields: {
-            name: name
-        }
-    };
-
     try {
-        const response = await fetch('https://api.mailerlite.com/api/v1/subscribers', {
+        const response = await fetch('/api/subscribe', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${MAILERLITE_API_KEY}`
-            },
-            body: JSON.stringify(payload)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email })
         });
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(`Mailerlite error: ${error.message || 'Unknown error'}`);
+            throw new Error(error.error || 'Error en Mailerlite');
         }
 
         const data = await response.json();
@@ -107,3 +90,93 @@ async function sendToMailerlite(name, email) {
         throw error;
     }
 }
+
+// Enviar notificación a Web3Forms (via proxy server)
+async function sendToWeb3Forms(name, email) {
+    try {
+        const response = await fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Error en Web3Forms');
+        }
+
+        const data = await response.json();
+        console.log('Notificación enviada via Web3Forms:', data);
+        return data;
+    } catch (error) {
+        console.error('Error enviando a Web3Forms:', error);
+        throw error;
+    }
+}
+
+// Manejar envío del formulario
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('success-message');
+    const errorMsg = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
+
+    // Validar
+    const validation = validateForm(name, email);
+
+    if (!validation.isValid) {
+        showErrors(validation);
+        return;
+    }
+
+    clearErrors();
+
+    // Deshabilitar botón y mostrar estado
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    errorMsg.style.display = 'none';
+    successMsg.style.display = 'none';
+
+    try {
+        // Enviar a ambas APIs simultáneamente
+        await Promise.all([
+            sendToMailerlite(name, email),
+            sendToWeb3Forms(name, email)
+        ]);
+
+        // Éxito
+        successMsg.style.display = 'block';
+        errorMsg.style.display = 'none';
+
+        // Limpiar formulario
+        document.getElementById('signup-form').reset();
+
+        // Reabilitar botón después de 3 segundos
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Suscribirse';
+        }, 3000);
+
+    } catch (error) {
+        // Error
+        errorText.textContent = 'Hubo un problema al procesar tu solicitud. Por favor intenta de nuevo.';
+        errorMsg.style.display = 'block';
+        successMsg.style.display = 'none';
+
+        // Reabilitar botón
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Suscribirse';
+    }
+}
+
+// Inicializar event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('signup-form');
+    if (form) {
+        form.addEventListener('submit', handleFormSubmit);
+    }
+});
