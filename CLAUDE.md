@@ -1,43 +1,23 @@
 # CLAUDE.md
 
-Esta página proporciona guía a Claude Code cuando trabajas en este repositorio.
-
-## Resumen del Proyecto
-
-Landing page de una página para captar suscriptores de newsletter. HTML/CSS/JS vanilla, sin dependencias complejas.
+Landing page de newsletter. HTML/CSS/JS vanilla, sin dependencias.
 
 ## Stack
 
-- HTML5 semántico
-- CSS3 (variables, Flexbox, Grid)
-- JavaScript vanilla
-- Google Fonts: Archivo, Instrument Serif, Inter
-- Mailerlite API (gestión de suscriptores)
-- Web3Forms (notificaciones por email)
+HTML5 + CSS3 (variables, Grid) + JavaScript vanilla + Google Fonts (Archivo, Inter, Instrument Serif) + Mailerlite API + Web3Forms
 
 ## Estructura
 
-```
-index.html - Página única con todas las secciones
-styles/main.css - Todos los estilos
-js/main.js - Lógica de formulario e integración APIs
-assets/images/ - Imágenes, logo, iconos
-```
+- `index.html` — Página única (header, hero, benefits, form, footer)
+- `styles/main.css` — Estilos responsivos (mobile-first)
+- `js/main.js` — Validación + APIs (Mailerlite, Web3Forms)
+- `assets/images/` — Imágenes/logos
 
-## Desarrollo Local
+## Desarrollo
 
-Simplemente abre `index.html` en navegador. No necesita servidor ni build step.
+Abre `index.html` en navegador. Sin servidor ni build step. Refresh para ver cambios.
 
-Para cambios:
-1. Edita archivos
-2. Refresh en navegador (F5)
-3. Revisa cambios inmediatamente
-
-## Comandos Importantes
-
-No hay scripts npm. Todo es manual y directo.
-
-### Git workflow
+### Git
 ```bash
 git add .
 git commit -m "message"
@@ -46,23 +26,15 @@ git push origin main
 
 ## Testing
 
-Testing manual en navegador:
-- Formulario con datos válidos
-- Formulario con datos inválidos
-- Verificar que ambas APIs reciben datos
-- Verificar responsividad en mobile
+Formulario: datos válidos/inválidos, ambas APIs reciben datos, mobile responsivo.
 
 ## Despliegue
 
-El proyecto puede desplegarse en:
-- Vercel (recomendado, auto-deploy desde GitHub)
-- GitHub Pages
-- Dinahosting (servidor propio con FTP)
+Vercel (auto-deploy) | GitHub Pages | Dinahosting (FTP)
 
-## Notas de Diseño
+## Notas
 
-- Mobile-first
-- Tipografía: Archivo (display), Inter/Instrument Serif (body)
-- Performance: < 2 segundos, Lighthouse > 90
+- Mobile-first, Lighthouse 90+
 - Formulario: nombre + email (validación cliente)
-- APIs: Mailerlite (suscriptores) + Web3Forms (notificaciones email)
+- APIs: Mailerlite (suscriptores) + Web3Forms (email al propietario)
+- Variables de entorno: MAILERLITE_API_KEY, WEB3FORMS_ACCESS_KEY
